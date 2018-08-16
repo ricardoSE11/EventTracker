@@ -31,7 +31,7 @@ dependencies {
     compile 'com.android.support:design:25.4.0'
 
     //BottomNavigationViewEx library
-    //compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.1'
+    compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.1'
 
     //Circle ImageView
     compile 'de.hdodenhof:circleimageview:2.1.0'
