@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">EventTracker</string>
+
+    <!-- Firebase messages -->
+    <string name="auth_failed">Failed to Authenticate</string>
+    <string name="auth_success">Authentication Success</string>
+</resources>
