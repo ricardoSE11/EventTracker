@@ -67,9 +67,9 @@ public class ProfileFragment extends Fragment {
         mWebsite = (TextView) view.findViewById(R.id.website);
         mDescription = (TextView) view.findViewById(R.id.description);
         mProfilePhoto = (CircleImageView) view.findViewById(R.id.profile_photo);
-        mPosts = (TextView) view.findViewById(R.id.tvPosts);
+        //mPosts = (TextView) view.findViewById(R.id.tvPosts);
         mFollowers = (TextView) view.findViewById(R.id.tvFollowers);
-        mFollowing = (TextView) view.findViewById(R.id.tvFollowing);
+        //mFollowing = (TextView) view.findViewById(R.id.tvFollowing);
         mProgressBar = (ProgressBar) view.findViewById(R.id.profileProgressBar);
         gridView = (GridView) view.findViewById(R.id.gridView);
         toolbar = (Toolbar) view.findViewById(R.id.profileToolBar);
@@ -110,8 +110,8 @@ public class ProfileFragment extends Fragment {
         mUsername.setText(user.getUsername());
         mWebsite.setText("www.stackoverflow.com");
         mDescription.setText("Its a feature, not a bug");
-        mPosts.setText(String.valueOf(0));
-        mFollowing.setText(String.valueOf(0));
+        //mPosts.setText(String.valueOf(0));
+        //mFollowing.setText(String.valueOf(0));
         mFollowers.setText(String.valueOf((0)));
         mProgressBar.setVisibility(View.GONE);
     }
