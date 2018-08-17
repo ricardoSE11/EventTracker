@@ -22,7 +22,7 @@
                 app:civ_border_width="2dp"
                 android:layout_centerHorizontal="true"/>
 
-            <TextView
+            <!--TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Change Photo"
@@ -32,13 +32,15 @@
                 android:textColor="@color/link_blue"
                 android:textSize="16sp"/>
 
+             -->
+
 
 
             <!-- username section -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@+id/changeProfilePhoto"
+                android:layout_below="@+id/profile_photo"
                 android:layout_marginTop="80dp"
                 android:background="@drawable/grey_border_bottom"
                 android:id="@+id/relLayout1">
@@ -66,12 +68,19 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@+id/relLayout1"
-                android:background="@drawable/grey_border_bottom"
+                android:layout_below="@+id/relLayout4"
+
                 android:id="@+id/relLayout2"
                 android:layout_marginTop="15dp">
 
-                <ImageView
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_changePassword"
+                    android:text="CHANGE PASSWORD"
+                    />
+
+                <!-- <ImageView
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:src="@drawable/ic_display_name"
@@ -86,12 +95,13 @@
                     android:background="@null"
                     android:inputType="textNoSuggestions"
                     android:hint="display name"/>
+                 -->
 
             </RelativeLayout>
 
 
             <!-- website section -->
-            <RelativeLayout
+            <!--<RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_below="@+id/relLayout2"
@@ -116,13 +126,14 @@
                     android:hint="Website"/>
 
             </RelativeLayout>
+            -->
 
 
             <!-- description section -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@+id/relLayout3"
+                android:layout_below="@+id/relLayout1"
                 android:background="@drawable/grey_border_bottom"
                 android:id="@+id/relLayout4"
                 android:layout_marginTop="15dp">
@@ -151,7 +162,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="25sp"
                 android:text="PRIVATE INFORMATION"
-                android:layout_below="@id/relLayout4"
+                android:layout_below="@id/relLayout2"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="50dp"
                 android:textColor="@color/black"

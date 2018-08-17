@@ -9,16 +9,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rshum.eventtracker.Dialogs.ChangePasswordDialog;
 import com.example.rshum.eventtracker.R;
 import com.example.rshum.eventtracker.Utils.FirebaseMethods;
 import com.example.rshum.eventtracker.Utils.UniversalImageLoader;
 import com.example.rshum.eventtracker.models.User;
 import com.example.rshum.eventtracker.models.UserSettings;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -31,11 +37,50 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class EditProfileFragment extends Fragment {
+public class EditProfileFragment extends Fragment implements
+        ChangePasswordDialog.OnConfirmPasswordListener{
 
     private static final String TAG = "EditProfileFragment";
 
-    //firebase
+    @Override
+    public void onConfirmPassword(String oldPassword  , final String newPassword) {
+        Log.d(TAG, "onConfirmPassword: got the old password: " + oldPassword + " and the new password: " + newPassword);
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        // Get auth credentials from the user for re-authentication. The example below shows
+        // email and password credentials but there are multiple possible providers,
+        // such as GoogleAuthProvider or FacebookAuthProvider.
+        AuthCredential credential = EmailAuthProvider
+                .getCredential(mAuth.getCurrentUser().getEmail(), oldPassword);
+
+        // Prompt the user to re-provide their sign-in credentials
+        user.reauthenticate(credential)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()) {
+                                    Log.d(TAG, "User re-authenticated.");
+
+                                    user.updatePassword(newPassword)
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Log.d(TAG, "User password updated.");
+                                                        Toast.makeText(getActivity(), "Password successfully changed", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+                                }
+                                else{
+                                    Log.d(TAG , "onComplete: re-authentication failed.");
+                                }
+
+                            }
+                        });
+    }
+
+    //Firebase
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseDatabase mFirebaseDatabase;
@@ -48,6 +93,7 @@ public class EditProfileFragment extends Fragment {
     private EditText mDisplayName, mUsername, mWebsite, mDescription, mEmail, mPhoneNumber;
     private TextView mChangeProfilePhoto;
     private CircleImageView mProfilePhoto;
+    private Button btnChangePassword;
 
 
     //vars
@@ -65,9 +111,20 @@ public class EditProfileFragment extends Fragment {
         mDescription = (EditText) view.findViewById(R.id.description);
         mEmail = (EditText) view.findViewById(R.id.email);
         mPhoneNumber = (EditText) view.findViewById(R.id.phoneNumber);
-        mChangeProfilePhoto = (TextView) view.findViewById(R.id.changeProfilePhoto);
+        //mChangeProfilePhoto = (TextView) view.findViewById(R.id.changeProfilePhoto);
         mFirebaseMethods = new FirebaseMethods(getActivity());
 
+        btnChangePassword = (Button) view.findViewById(R.id.btn_changePassword);
+        btnChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG,"onClick: trying to change user password");
+
+                ChangePasswordDialog dialog = new ChangePasswordDialog();
+                dialog.show(getFragmentManager(), getString(R.string.change_password_dialog));
+                dialog.setTargetFragment(EditProfileFragment.this, 1);
+            }
+        });
 
         //setProfileImage();
         setupFirebaseAuth();
@@ -100,9 +157,9 @@ public class EditProfileFragment extends Fragment {
      * Before donig so it chekcs to make sure the username chosen is unqiue
      */
     private void saveProfileSettings(){
-        final String displayName = mDisplayName.getText().toString();
+        //final String displayName = mDisplayName.getText().toString();
         final String username = mUsername.getText().toString();
-        final String website = mWebsite.getText().toString();
+        //final String website = mWebsite.getText().toString();
         final String description = mDescription.getText().toString();
         final String email = mEmail.getText().toString();
         final long phoneNumber = Long.parseLong(mPhoneNumber.getText().toString());
@@ -121,8 +178,6 @@ public class EditProfileFragment extends Fragment {
                 else{
 
                 }
-
-
 
 
             }
@@ -183,9 +238,9 @@ public class EditProfileFragment extends Fragment {
 
         UniversalImageLoader.setImage("www.androidcentral.com/sites/androidcentral.com/files/styles/xlarge/public/article_images/2016/08/ac-lloyd.jpg?itok=bb72IeLf", mProfilePhoto, null, "https://");
 
-        mDisplayName.setText(user.getUsername());
+        //mDisplayName.setText(user.getUsername());
         mUsername.setText(user.getUsername());
-        mWebsite.setText("www.stackoverflow.com");
+        //mWebsite.setText("www.stackoverflow.com");
         mDescription.setText("Its a feature, not a bug");
 
         mEmail.setText(userSettings.getUser().getEmail());
@@ -258,4 +313,6 @@ public class EditProfileFragment extends Fragment {
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
+
+
 }

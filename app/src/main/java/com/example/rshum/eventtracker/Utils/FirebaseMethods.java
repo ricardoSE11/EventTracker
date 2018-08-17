@@ -48,7 +48,7 @@ public class FirebaseMethods {
                 .child(userID)
                 .child(mContext.getString(R.string.field_username))
                 .setValue(username);
-        
+
     }
 
 //    public boolean checkIfUsernameExists(String username, DataSnapshot datasnapshot){

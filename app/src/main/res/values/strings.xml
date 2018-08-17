@@ -18,7 +18,10 @@
     <!-- Intent Extras -->
     <string name="calling_activity">calling_activity</string>
 
-    <!-- activity names -->
+    <!-- Activity names -->
     <string name="profile_activity">Profile Activity</string>
+
+    <!-- dialog names -->
+    <string name="change_password_dialog">ChangePasswordDialog</string>
 
 </resources>
